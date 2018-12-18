@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from '../../domain/iproduct';
+import { HmoService } from '../../services/hmo.service';
 
 @Component({
   selector: 'app-products-list',
@@ -12,10 +13,10 @@ export class ProductsListComponent implements OnInit {
   imageWidth: number = 50;
   imageMargin: number = 2;
   showImage: boolean = false;
-  listFilter: string = 'cart';
+  listFilter: string = '';
   products: IProduct[] = [
     {
-      'productId': 2,
+      'id': 2,
       'productName': 'Garden Cart',
       'productCode': 'GDN-0023',
       'releaseDate': 'March 18, 2016',
@@ -25,7 +26,7 @@ export class ProductsListComponent implements OnInit {
       'imageUrl': 'http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png'
     },
     {
-      'productId': 5,
+      'id': 5,
       'productName': 'Hammer',
       'productCode': 'TBX-0048',
       'releaseDate': 'May 21, 2016',
@@ -35,7 +36,7 @@ export class ProductsListComponent implements OnInit {
       'imageUrl': 'http://openclipart.org/image/300px/svg_to_png/73/rejon_Hammer.png'
     },
     {
-      'productId': 8,
+      'id': 8,
       'productName': 'Saw',
       'productCode': 'TBX-0022',
       'releaseDate': 'May 15, 2016',
@@ -45,20 +46,24 @@ export class ProductsListComponent implements OnInit {
       'imageUrl': 'http://openclipart.org/image/300px/svg_to_png/27070/egore911_saw.png'
     },
   {
-      "productId": 10,
-      "productName": "Video Game Controller",
-      "productCode": "GMG-0042",
-      "releaseDate": "October 15, 2015",
-      "description": "Standard two-button video game controller",
-      "price": 35.95,
-      "starRating": 4.6,
-      "imageUrl": "http://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png"
+      'id': 10,
+      'productName': 'Video Game Controller',
+      'productCode': 'GMG-0042',
+      'releaseDate': 'October 15, 2015',
+      'description': 'Standard two-button video game controller',
+      'price': 35.95,
+      'starRating': 4.6,
+      'imageUrl': 'http://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png'
   }
   ];
 
- constructor() { }
+ constructor(private _service: HmoService) { }
 
- ngOnInit() {  }
+ ngOnInit() {
+   this._service.getAllProducts().subscribe(
+  result => this.products = result,
+  erreur => console.log('ATTENTION, Il y a eu l\'erreur : ' + erreur)
+);  }
 
  toggleImage(): void {
     this.showImage = !this.showImage;
